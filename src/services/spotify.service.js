@@ -2,7 +2,7 @@ export default {
     registration : {
         client_id : "9b976141d3324f198766ee8e48aaadca",
         client_secret : "18e2cf36acbd4663b4e27c450aec82a0",
-        redirect_uri : "http://localhost:8080",
+        redirect_uri : "https://spotifhue.herokuapp.com/",
         scopes : 'streaming playlist-read-collaborative user-read-recently-played user-read-birthdate user-read-private user-read-email user-modify-playback-state playlist-modify-public user-read-playback-state user-top-read',
     },
 
