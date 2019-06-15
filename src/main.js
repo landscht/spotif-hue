@@ -2,11 +2,14 @@ import Vue from 'vue'
 import './plugins/vuetify'
 import './plugins/vue-router'
 import './plugins/font-awesome'
+import './plugins/date-format'
 import App from './App.vue'
 import Login from "./components/Login";
 import VueRouter from "vue-router";
-import SpotifPlayer from "./components/SpotifPlayer";
+import SpotifHome from "./components/SpotifHome";
 import Hue from "./components/Hue";
+import Device from "./components/Device";
+import Playlist from "./components/Playlist";
 
 Vue.config.productionTip = false
 
@@ -16,8 +19,10 @@ const router = new VueRouter({
   routes: [
     { path: '*', redirect: '/login' },
     { path: '/login', component: Login},
-    { path: '/spotifPlayer', component: SpotifPlayer},
-    { path: '/hue', component: Hue}
+    { path: '/spotif', component: SpotifHome},
+    { path: '/hue', component: Hue},
+    { path: '/device', component: Device},
+    { path: '/playlist/:id', component: Playlist}
   ]
 })
 

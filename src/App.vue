@@ -2,9 +2,7 @@
   <v-app dark>
     <Navigation v-on:nav="activeNav" :drawer="drawer"></Navigation>
     <v-content>
-      <v-container fluid>
         <router-view v-on:nav="activeNav"></router-view>
-      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -13,10 +11,12 @@
 import HelloWorld from './components/HelloWorld'
 import Navigation from "./components/Navigation";
 import SpotifyService from './services/spotify.service';
+import Player from "./components/Player";
 
 export default {
   name: 'App',
   components: {
+    Player,
     Navigation,
     HelloWorld
   },
@@ -43,7 +43,7 @@ export default {
     initiatePlayer: async function () {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
       const sdk = new Player({
-        name: 'Bastien je ttm bb',
+        name: 'SpotifHue',
         volume: 1.0,
         getOAuthToken: callback => { callback(SpotifyService.access_token) }
       })
@@ -64,9 +64,12 @@ export default {
         console.log('Duration of Song', duration);
         SpotifyService.actualiseInfos(current_track, duration, position)
       });
+
+      sdk.addListener('player_state_changed', state => { SpotifyService.getPause(state.paused) });
       // Ready
       sdk.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device Id: ', device_id)
+        SpotifyService.device_id = device_id
       })
       // Not Ready
       sdk.addListener('not_ready', ({ device_id }) => {

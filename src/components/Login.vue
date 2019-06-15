@@ -48,10 +48,9 @@
             let hash = Spotify.getHashParams();
             if(hash.access_token != undefined) {
                 Spotify.access_token = hash.access_token;
-                this.$router.push('/spotifPlayer')
-                NavigationService.drawer = !NavigationService.drawer;
-                console.log(NavigationService.drawer)
-                this.$emit('nav')
+                Spotify.info_me = Spotify.me();
+                console.log(Spotify.info_me)
+                this.$router.push('/device')
             }
         }
     }

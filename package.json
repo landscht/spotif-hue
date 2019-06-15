@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
@@ -19,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "core-js": "^2.6.5",
     "electron-widevinecdm": "^7.0.0",
+    "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vuetify": "^1.5.5"

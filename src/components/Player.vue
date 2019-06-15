@@ -1,37 +1,38 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-flex xs12>
-            Vous écoutez <span class="font-weight-bold">{{info.current_track.name}}</span> de <span class="font-weight-bold">{{info.current_track.artists[0].name}}</span>
-        </v-flex>
-        <v-flex xs12>
-            <v-layout row justify-center>
-                <v-btn small fab dark color="green" @click="previous">
-                    <v-icon dark>skip_previous</v-icon>
-                </v-btn>
-                <v-btn v-if="playStatus" small fab dark color="green" @click="play">
-                    <v-icon dark>play_arrow</v-icon>
-                </v-btn>
-                <v-btn v-else small fab dark color="green" @click="pause">
-                    <v-icon dark>pause</v-icon>
-                </v-btn>
-                <v-btn small fab dark color="green" @click="next">
-                    <v-icon dark>skip_next</v-icon>
-                </v-btn>
+    <v-footer fixed height="auto">
+        <v-container class="cont" grid-list-md text-xs-center>
+            <v-layout row wrap>
+                <v-flex xs12>
+                    <v-layout column>
+                        <v-layout row justify-center>
+                            <v-btn small fab dark color="green" @click="previous">
+                                <v-icon dark>skip_previous</v-icon>
+                            </v-btn>
+                            <v-btn v-if="info.pause" small fab dark color="green" @click="play">
+                                <v-icon dark>play_arrow</v-icon>
+                            </v-btn>
+                            <v-btn v-else small fab dark color="green" @click="pause">
+                                <v-icon dark>pause</v-icon>
+                            </v-btn>
+                            <v-btn small fab dark color="green" @click="next">
+                                <v-icon dark>skip_next</v-icon>
+                            </v-btn>
+                        </v-layout>
+                        <v-slider
+                                v-model="info.position_track"
+                                :max="info.duration_track"
+                                :min="0"
+                                :step="1"
+                                :label="info.position_track | formatDate"
+                                @click="playMusic"
+                        ></v-slider>
+                        <p>Vous écoutez <span class="font-weight-bold">{{info.current_track.name}}</span> de <span class="font-weight-bold">{{info.current_track.artists[0].name}}</span></p>
+                    </v-layout>
+                </v-flex>
             </v-layout>
-        </v-flex>
-        <v-flex xs12>
-            <v-slider
-                    v-model="info.position_track"
-                    :max="info.duration_track"
-                    :min="0"
-                    :step="1"
-            ></v-slider>
-            {{info.position_track}}
-        </v-flex>
-
-    </v-container>
+        </v-container>
+    </v-footer>
 </template>
-
 <script>
 
     import NavigationService from '../services/navigation.service'
@@ -48,7 +49,6 @@
         data : () => ({
             playStatus : false,
             info : Spotify.infos,
-            interval : null
         }),
         methods : {
             close() {
@@ -57,34 +57,32 @@
             },
             previous() {
                 Spotify.previousTrack()
-                this.startSlider()
             },
             next() {
                 Spotify.nextTrack()
-                this.startSlider()
             },
             play() {
                 this.playStatus = !this.playStatus
                 Spotify.playMusic()
-                this.interval = setInterval(function() {
-                    this.setPosition()
-                }.bind(this), 1000)
             },
             pause() {
-                clearInterval(this.interval)
                 this.playStatus = !this.playStatus
                 Spotify.pauseMusic()
             },
             startSlider() {
-                clearInterval(this.interval)
-                this.interval = setInterval(function() {
+                clearInterval(this.info.interval)
+                this.info.interval = setInterval(function() {
                     this.info.position_track = this.info.position_track + 1000
                 }.bind(this), 1000)
             },
+            playMusic() {
+                Spotify.playMusicInms(this.info.position_track)
+            }
         }
     }
 </script>
 
 <style scoped>
+
 
 </style>

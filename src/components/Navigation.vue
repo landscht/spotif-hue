@@ -33,17 +33,17 @@
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
-        <v-layout align-end fill-height>
-            <v-divider></v-divider>
-        </v-layout>
+        <Player></Player>
     </v-navigation-drawer>
 </template>
 
 <script>
 
+    import Player from "./Player";
     export default {
 
         name: "Navigation",
+        components: {Player},
         props : {
             drawer : Boolean
         },
@@ -52,7 +52,7 @@
                 {
                     action: {prefix: 'fab', iconName: 'spotify'},
                     title: 'Spotify',
-                    path: '/spotifPlayer',
+                    path: '/spotif',
                     items: [],
                 },
                 {
