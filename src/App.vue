@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app :dark="night">
     <Navigation v-on:nav="activeNav" :drawer="drawer"></Navigation>
     <v-content>
         <router-view v-on:nav="activeNav"></router-view>
@@ -8,10 +8,12 @@
 </template>
 
 <script>
+
 import HelloWorld from './components/HelloWorld'
 import Navigation from "./components/Navigation";
 import SpotifyService from './services/spotify.service';
 import Player from "./components/Player";
+import SettingsService from "./services/settings.service"
 
 export default {
   name: 'App',
@@ -22,7 +24,8 @@ export default {
   },
   data () {
     return {
-      drawer : false
+      drawer : false,
+      night : SettingsService.night
     }
   },
   methods : {

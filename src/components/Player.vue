@@ -1,8 +1,8 @@
 <template>
     <v-footer fixed height="auto">
-        <v-container class="cont" grid-list-md text-xs-center>
+        <v-container class="cont" grid-list-md>
             <v-layout row wrap>
-                <v-flex xs12>
+                <v-flex xs12 pa-0>
                     <v-layout column>
                         <v-layout row justify-center>
                             <v-btn small fab dark color="green" @click="previous">
@@ -26,7 +26,7 @@
                                 :label="info.position_track | formatDate"
                                 @click="playMusic"
                         ></v-slider>
-                        <p>Vous écoutez <span class="font-weight-bold">{{info.current_track.name}}</span> de <span class="font-weight-bold">{{info.current_track.artists[0].name}}</span></p>
+                        <p>Vous écoutez <router-link class="deco" :to="'/spotif/info-track/' + info.current_track.id"><span class="font-weight-bold">{{info.current_track.name}}</span></router-link> de <span class="font-weight-bold">{{info.current_track.artists[0].name}}</span></p>
                     </v-layout>
                 </v-flex>
             </v-layout>
@@ -84,5 +84,9 @@
 
 <style scoped>
 
+.deco {
+    text-decoration: none;
+    color: white;
+}
 
 </style>

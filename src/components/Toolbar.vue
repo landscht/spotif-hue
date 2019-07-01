@@ -1,12 +1,16 @@
 <template>
     <v-toolbar>
         <v-toolbar-side-icon @click="navigation"></v-toolbar-side-icon>
-
-        <v-text-field
-                label="Chercher une musique"
-                box
-                append-icon="search"
-        ></v-text-field>
+        <v-form>
+            <v-text-field
+                    @click="goToSearch"
+                    label="Chercher une musique"
+                    box
+                    v-model="search"
+                    append-icon="search"
+            ></v-text-field>
+            {{search}}
+        </v-form>
         <v-toolbar-title>
             <v-avatar
                     :tile="false"
@@ -19,14 +23,18 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat>Mes playlists</v-btn>
-            <v-btn flat>Mes titres</v-btn>
-            <v-btn flat>Mes albums</v-btn>
+            <v-btn flat active-class="green--text" to="/spotif/discover">Découvrir</v-btn>
+            <v-btn flat active-class="green--text" to="/spotif/playlists">Mes playlists</v-btn>
+            <v-btn flat active-class="green--text" to="/spotif/tracks">Mes titres</v-btn>
+            <v-btn flat active-class="green--text" to="/spotif/albums">Mes albums</v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>
 
 <script>
+
+    import SpotifyService from "../services/spotify.service"
+
     export default {
         name: "Toolbar",
         created() {
@@ -36,11 +44,15 @@
             })
         },
         data : () => ({
-            me : {}
+            me : {},
+            search : ''
         }),
         methods : {
             navigation() {
                 this.$emit("nav")
+            },
+            goToSearch() {
+                this.$router.push("/spotif/search")
             }
         }
     }

@@ -4,7 +4,7 @@ export default {
         client_secret : "18e2cf36acbd4663b4e27c450aec82a0",
         //redirect_uri : "http://localhost:8080",
         redirect_uri : "https://spotifhue.herokuapp.com/",
-        scopes : 'streaming playlist-read-collaborative user-read-recently-played user-read-birthdate user-read-private user-read-email user-modify-playback-state playlist-modify-public user-read-playback-state user-top-read',
+        scopes : 'streaming playlist-read-collaborative user-library-read user-read-recently-played user-read-birthdate user-read-private user-read-email user-modify-playback-state playlist-modify-public user-read-playback-state user-top-read',
     },
 
     infos : {
@@ -21,6 +21,12 @@ export default {
     info_me : {},
 
     access_token : "",
+
+    millisToMinutesAndSeconds(millis) {
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    },
 
     actualiseInfos(current_track, duration, position) {
         this.infos.current_track = current_track
@@ -47,6 +53,42 @@ export default {
             hashParams[e[1]] = decodeURIComponent(e[2]);
         }
         return hashParams;
+    },
+
+    getTracks() {
+        return fetch('https://api.spotify.com/v1/me/tracks?limit=50', {
+            method : 'GET',
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                return data
+            })
+    },
+
+    getTrackId(id) {
+        return fetch('https://api.spotify.com/v1/tracks/' + id, {
+            method : 'GET',
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                return data
+            })
+    },
+
+    getAlbums() {
+        return fetch('https://api.spotify.com/v1/me/albums?limit=50', {
+            method : 'GET',
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                return data
+            })
     },
 
     login(url) {
